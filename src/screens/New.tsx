@@ -1,4 +1,7 @@
-import { Heading, VStack, Text } from "native-base";
+import { useState } from 'react';
+import { Heading, VStack, Text, useToast } from "native-base";
+
+import { api } from '../services/api';
 
 import { Header } from "../components/Header";
 import { Button } from "../components/Button";
@@ -7,6 +10,47 @@ import { Input } from "../components/Input";
 import Logo from '../assets/logo.svg';
 
 export function New() {
+
+    const [ title, setTitle ] = useState('');
+    const [ isLoading, setIsLoading ] = useState(false);
+
+    const toast = useToast();
+
+    async function handlePoolCreate() {
+        if (!title.trim()) {
+            return toast.show({
+                title: 'Enter a name for your pool!',
+                placement: 'top',
+                bgColor: 'red.500'
+            });
+        }
+
+        try {
+            setIsLoading(true);
+
+            await api.post('/pools', { title })
+
+            toast.show({
+                title: 'Pool created successfully!',
+                placement: 'top',
+                bgColor: 'green.500'
+            });
+
+            setTitle('');
+
+        } catch (error) {
+            console.log(error);
+
+            toast.show({
+                title: 'Oops, Unable to create the pool',
+                placement: 'top',
+                bgColor: 'red.500'
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <VStack flex={1} bgColor="gray.900">
 
@@ -23,10 +67,14 @@ export function New() {
                 <Input 
                     mb={2}
                     placeholder="What is the name of your pool?"
+                    onChangeText={setTitle}
+                    value={title}
                 />
 
                 <Button 
                     title="CREATE MY POOL"
+                    onPress={handlePoolCreate}
+                    isLoading={isLoading}
                 />
 
                 <Text color="gray.200" fontSize="sm" textAlign="center" px={10} mt={4}>
