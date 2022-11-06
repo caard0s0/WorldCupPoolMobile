@@ -7,6 +7,7 @@ import { api } from "../services/api";
 
 import { Header } from "../components/Header";
 import { Loading } from "../components/Loading";
+import { Guesses } from "../components/Guesses";
 import { Option } from "../components/Option";
 import { EmptyMyPoolList } from "../components/EmptyMyPoolList";
 import { PoolCardProps } from "../components/PoolCard";
@@ -18,7 +19,7 @@ interface RouteParams {
 
 export function Details() {
     const [ optionSelected, setOptionSelected ] = useState<'Guesses' | 'Ranking'>('Guesses');
-    const [ isLoading, setIsLoading ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(true);
     const [ poolDetails, setPoolDetails ] = useState<PoolCardProps>({} as PoolCardProps);
 
     const route = useRoute();
@@ -94,6 +95,8 @@ export function Details() {
                         />
                     
                     </HStack>
+
+                    <Guesses poolId={poolDetails.id} />
 
                 </VStack>
 

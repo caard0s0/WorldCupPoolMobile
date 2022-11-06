@@ -54,7 +54,7 @@ export function New() {
     return (
         <VStack flex={1} bgColor="gray.900">
 
-            <Header title="Create new pool" />
+            <Header title="Create new pool" onShare={null} />
 
             <VStack mt={8} mx={5} alignItems="center">
 
