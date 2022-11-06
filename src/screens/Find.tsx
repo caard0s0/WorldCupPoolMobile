@@ -59,7 +59,7 @@ export function Find() {
             }
 
             toast.show({
-                title: 'Could not find the pool.',
+                title: 'Unable to find the pool.',
                 placement: 'top',
                 bgColor: 'red.500'
             });
